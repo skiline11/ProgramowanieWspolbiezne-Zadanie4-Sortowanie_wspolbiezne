@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang=""><link type="text/css" id="dark-mode" rel="stylesheet" href=""><style type="text/css" id="dark-mode-custom-style"></style><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Zadanie poprawkowe: Sortowanie współbieżne w pamięci dzielonej</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+<style></style></head>
+<body>
+<header>
+<h1 class="title">Zadanie poprawkowe: <em>Sortowanie współbieżne w pamięci dzielonej</em></h1>
+</header>
+<p>Termin wysyłania rozwiązań upływa 10 lutego 2018 roku o godz. 22:59 CET.</p>
+<p>Pytania do zadania proszę kierować na adres <code>p.zuk@mimuw.edu.pl</code></p>
+<hr>
+<p>Grupa procesów składająca się&nbsp;z procesu nadzorczego <code>Sort</code> oraz procesów <code>A(0)</code>, <code>A(1)</code>, …, <code>A(N - 1)</code> i <code>B(0)</code>, <code>B(1)</code>, …, <code>B(N - 2)</code> realizuje sortowanie <code>2N</code> (<code>N &gt;= 2</code>) liczb całkowitych.</p>
+<p>Proces <code>Sort</code> wczytuje ze standardowego wejścia liczbę <code>N</code>, alokuje pamięć dzieloną, następnie wczytuje do niej ze standardowego wejścia tablicę <code>t[0..2N-1]</code>liczb całkowitych. W kolejnym kroku <code>Sort</code> uruchamia procesy <code>A(i)</code> oraz <code>B(i)</code>.</p>
+<p>Każdy z procesów <code>A(i)</code> cyklicznie:</p>
+<ul>
+<li>porównuje i w razie konieczności zamienia liczby <code>t[2*i]</code> oraz <code>t[2 * i + 1]</code></li>
+<li>sygnalizuje procesom <code>B(i)</code> oraz <code>B(i-1)</code> (<code>A(0)</code> sygnalizuje tylko procesowi <code>B(0)</code>, a <code>A(N - 1)</code> tylko <code>B(N - 2)</code>) zakończenie kroku sortowania</li>
+<li>przed rozpoczęciem kolejnej iteracji, oczekuje na zakończenie kroku sortowania przez w/w procesy.</li>
+</ul>
+<p>Każdy z procesów <code>B(i)</code> cyklicznie:</p>
+<ul>
+<li>oczekuje na zakończenie kroku sortowania przez procesy <code>A(i)</code> oraz <code>A(i + 1)</code></li>
+<li>porównuje i w razie konieczności zamienia liczby <code>t[2*i + 1]</code> oraz <code>t[2*i + 2]</code></li>
+<li>sygnalizuje procesom <code>A(i)</code> oraz <code>A(i + 1)</code> zakończenie kroku sortowania.</li>
+</ul>
+<p>Po posortowaniu procesy <code>A(i)</code>, <code>B(i)</code> kończą pracę, a proces <code>Sort</code> wypisuje posortowane liczby na standardowe wyjście (po jednej w wierszu).</p>
+<p>Zaimplementuj w C przedstawiony schemat komunikacji. Do komunikacji 
+między procesami należy wykorzystać pamięć dzieloną oraz semafory.</p>
+<p>Rozwiązanie należy przesłać pocztą elektroniczną jako załącznik na adres <code>p.zuk@mimuw.edu.pl</code>. Załączony plik powinien mieć nazwę <code>AB123456.tar.gz</code>, gdzie <code>AB123456</code> to login na maszynie <code>students</code>. Rozwiązanie musi zawierać plik <code>Makefile</code> albo <code>CMakeLists.txt</code>. Należy zadbać by rozwiązanie działało na komputerach w laboratorium.</p>
+<h1 id="kryteria-oceniania">Kryteria oceniania</h1>
+<p>Rozwiązania, w których procesy <code>A(i)</code> oraz <code>B(i)</code> wykonują ustaloną (zależną od <code>N</code>)
+ liczbę kroków sortowania mogą otrzymać maksymalnie 8 pkt. Aby otrzymać 
+10 pkt. należy zaimplementować wykrywanie sytuacji, w której tablica 
+staje się posortowana.</p>
+<h1 id="przykład">Przykład</h1>
+<p>Wejście:</p>
+<pre><code>2
+6
+5
+3
+7</code></pre>
+<p>Wyjście:</p>
+<pre><code>3
+5
+6
+7</code></pre>
+
+
+</body></html>
